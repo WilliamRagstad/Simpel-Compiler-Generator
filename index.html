@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>SCG</title>
+</head>
+<body class="column">
+    <div class="top-right">
+        <button id="theme"></button>
+    </div>
+    <div class="row">
+        <h1><span class="super">William's</span>Simple Compiler Generator</h1>
+        <p>
+            This tools allow you to generate a complete compiler for any language
+            using a simple and declarative markup language, that describe the syntax for
+            the language and how the compiler should generate the target or destination language
+            output source.<br>
+            <a href="documentation.html">Read the documentation &gt;</a>
+        </p>
+    </div>
+    <div class="row">
+        <div class="column">
+            <div class="row">
+                <div class="column">
+                    <div class="row">
+                        From&nbsp;
+                        <select id="spec_lang">
+                            <option value="">Custom</option>
+                            <option value="JavaScript">JavaScript</option>
+                        </select>
+                    </div>
+                    <textarea id="spec" placeholder="[Syntax and specification]"></textarea>
+                </div>
+                <div class="column">
+                    <div class="row">
+                        To&nbsp;
+                        <select id="gen_lang">
+                            <option value="">Custom</option>
+                            <option value="JavaScript">JavaScript</option>
+                        </select>
+                    </div>
+                    <textarea id="gen" class="column" placeholder="[Code generation]"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <button id="build">Build</button>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="row">
+                Implement in&nbsp;
+                <select id="compiler_lang">
+                    <option value="TypeScript">TypeScript</option>
+                </select>
+            </div>
+            <textarea id="compiler" class="row" placeholder="[Result compiler]" readonly></textarea>
+            <div class="row">
+                <div class="column">
+                    <button id="download">Download</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <textarea id="source" class="row" placeholder="[Source input code]"></textarea>
+            <div class="row">
+                <div class="column">
+                    <button id="compile">Compile</button>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <textarea id="output" class="row" placeholder="[Console output]" readonly></textarea>
+        </div>
+        <div class="column">
+            <textarea id="destination" class="row" placeholder="[Destination output code]" readonly></textarea>
+        </div>
+    </div>
+</body>
+<script src="dist/index.js"></script>
+<script src="dist/theme.js"></script>
+</html>
