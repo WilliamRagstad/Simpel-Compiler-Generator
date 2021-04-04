@@ -1,23 +1,27 @@
 let themeBtn = document.getElementById("theme");
-const moon = "🌙";
-const moonCss = "#976aef";
-const day = "☀️";
-const dayCss = "#5f5f00";
-themeBtn.innerText = moon;
-themeBtn.style.setProperty('color', moonCss);
-let dark = false;
-const darkCss = `invert(1) hue-rotate(180deg)`;
+
+function setNight() {
+    document.body.parentElement.style.setProperty('filter', `invert(1) hue-rotate(180deg)`);
+    themeBtn.innerText = "☀️";
+    themeBtn.style.setProperty('color', "#5f5f00");
+}
+
+function setDay() {
+    document.body.parentElement.style.removeProperty('filter');
+    themeBtn.innerText = "🌙";
+    themeBtn.style.setProperty('color', "#976aef");
+}
+
+function applyTheme() {
+    if (dark) setDay();
+    else setNight();
+    dark = !dark;
+}
 
 themeBtn.addEventListener("click", () => {
-    if (dark) {
-        document.body.parentElement.style.removeProperty('filter');
-        themeBtn.innerText = moon;
-        themeBtn.style.setProperty('color', moonCss);
-    }
-    else {
-        document.body.parentElement.style.setProperty('filter', darkCss);
-        themeBtn.innerText = day;
-        themeBtn.style.setProperty('color', dayCss);
-    }
-    dark = !dark;
+    applyTheme();
+    localStorage.setItem("dark", dark.toString());
 })
+
+let dark = (localStorage.getItem("dark") ?? 'false') == 'false';
+applyTheme();
