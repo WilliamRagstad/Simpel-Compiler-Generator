@@ -1,20 +1,14 @@
-import { SCGParser } from "./SCGParser";
+import { SCGParser } from "./parser";
+import { Matcher } from './matcher';
 
-class Parser {
-
-}
-
-class Generator {
-
-}
 
 export class Compiler {
     public Name: string;
-    private parser: Parser;
+    private matcher: Matcher;
     private generator: Generator;
 
     constructor(grammar: string, generatorRules: string) {
-        this.parser = SCGParser.Grammar(grammar);
+        this.matcher = SCGParser.Grammar(grammar);
     }
 
     /**
