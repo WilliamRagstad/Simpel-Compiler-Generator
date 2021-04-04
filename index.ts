@@ -20,3 +20,40 @@ onClick('download', (compiler: HTMLTextAreaElement) => {
 onClick('compile', (source: HTMLTextAreaElement, destination: HTMLTextAreaElement) => {
     console.log(source.value);
 })
+
+
+/*
+888888 88  88 888888 8b    d8 888888
+  88   88  88 88__   88b  d88 88__
+  88   888888 88""   88YbdP88 88""
+  88   88  88 888888 88 YY 88 888888
+*/
+
+let themeBtn = document.getElementById("theme") as HTMLElement;
+
+let ls = localStorage.getItem("dark");
+let dark = ls == 'false';
+applyTheme();
+
+function setNight() {
+    document.body.parentElement?.style.setProperty('filter', `invert(1) hue-rotate(180deg)`);
+    themeBtn.innerText = "☀️";
+    themeBtn.style.setProperty('color', "#5f5f00");
+}
+
+function setDay() {
+    document.body.parentElement?.style.removeProperty('filter');
+    themeBtn.innerText = "🌙";
+    themeBtn.style.setProperty('color', "#976aef");
+}
+
+function applyTheme() {
+    if (dark) setDay();
+    else setNight();
+    dark = !dark;
+}
+
+themeBtn.addEventListener("click", () => {
+    applyTheme();
+    localStorage.setItem("dark", dark.toString());
+})
