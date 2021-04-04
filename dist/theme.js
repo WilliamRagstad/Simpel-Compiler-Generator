@@ -1,12 +1,17 @@
-var _a;
+"use strict";
 var themeBtn = document.getElementById("theme");
+var ls = localStorage.getItem("dark");
+var dark = ls == 'false';
+applyTheme();
 function setNight() {
-    document.body.parentElement.style.setProperty('filter', "invert(1) hue-rotate(180deg)");
+    var _a;
+    (_a = document.body.parentElement) === null || _a === void 0 ? void 0 : _a.style.setProperty('filter', "invert(1) hue-rotate(180deg)");
     themeBtn.innerText = "☀️";
     themeBtn.style.setProperty('color', "#5f5f00");
 }
 function setDay() {
-    document.body.parentElement.style.removeProperty('filter');
+    var _a;
+    (_a = document.body.parentElement) === null || _a === void 0 ? void 0 : _a.style.removeProperty('filter');
     themeBtn.innerText = "🌙";
     themeBtn.style.setProperty('color', "#976aef");
 }
@@ -21,5 +26,3 @@ themeBtn.addEventListener("click", function () {
     applyTheme();
     localStorage.setItem("dark", dark.toString());
 });
-var dark = ((_a = localStorage.getItem("dark")) !== null && _a !== void 0 ? _a : 'false') == 'false';
-applyTheme();

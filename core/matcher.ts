@@ -1,15 +1,25 @@
-import { Node } from './node';
+import { ASTNode } from './node';
 
 export class Matcher {
-    private grammas: Node[]
-    constructor(grammars: Node[]) {
+    private grammas: ASTNode[]
+    constructor(grammars: ASTNode[]) {
         this.grammas = grammars;
     }
 
     /**
      * Match
      */
-    public Match(input: string) {
-        
+    private Match(input: string) {
+        return null;
+    }
+
+    public Parse(input: string): ASTNode {
+        let root: ASTNode = {};
+
+        while(this.Match(input) != null) {
+
+        }
+
+        return root;
     }
 }

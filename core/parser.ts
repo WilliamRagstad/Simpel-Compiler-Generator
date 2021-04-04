@@ -1,8 +1,10 @@
 import { Matcher } from './matcher';
+import { Generator } from './generator';
+import { ASTNode } from './node';
 
 export class SCGParser {
     public static Grammar(grammar: string): Matcher {
-        let matches: Node[] = [];
+        let matches: ASTNode[] = [];
 
         let ct = '';
         let isExpr = true;
@@ -16,5 +18,10 @@ export class SCGParser {
 
 
         return new Matcher(matches);
+    }
+
+    public static Generator(rules: string): Generator {
+
+        return new Generator(ast => "");
     }
 }
