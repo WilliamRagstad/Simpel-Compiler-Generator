@@ -29,7 +29,7 @@
                     <div class="row">
                         From&nbsp;
                         <select id="spec_lang">
-                            <option value="">Custom</option>
+                            <option value="custom">Custom</option>
                             <option value="JavaScript">JavaScript</option>
                         </select>
                     </div>
@@ -39,7 +39,7 @@
                     <div class="row">
                         To&nbsp;
                         <select id="gen_lang">
-                            <option value="">Custom</option>
+                            <option value="custom">Custom</option>
                             <option value="JavaScript">JavaScript</option>
                         </select>
                     </div>
@@ -54,17 +54,9 @@
         </div>
         <div class="column">
             <div class="row">
-                Implement in&nbsp;
-                <select id="compiler_lang">
-                    <option value="TypeScript">TypeScript</option>
-                </select>
+                Generated Compiler
             </div>
             <textarea id="compiler" class="row" placeholder="[Result compiler]" readonly></textarea>
-            <div class="row">
-                <div class="column">
-                    <button id="download">Download</button>
-                </div>
-            </div>
         </div>
     </div>
     <div class="row">

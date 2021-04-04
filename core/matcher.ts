@@ -22,4 +22,10 @@ export class Matcher {
 
         return root;
     }
+
+    public Build(functionName: string): string {
+        return `function ${functionName}(input) {
+    return {value: input};
+}`;
+    }
 }

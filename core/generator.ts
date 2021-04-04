@@ -9,4 +9,10 @@ export class Generator {
     public CodeGen(ast: ASTNode): string {
         return this.generatorFunction(ast);
     }
+
+    public Build(functionName: string): string {
+        return `function ${functionName}(ast) {
+    return ast.value;
+}`;
+    }
 }

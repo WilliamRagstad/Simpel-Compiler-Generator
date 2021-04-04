@@ -1,25 +1,45 @@
-import { Compilers, Compiler } from './core/compiler';
+import { CompilerGenerator } from './core/compiler';
 
 const onClick = (id: string, fun: Function) => {
     document.getElementById(id)?.addEventListener('click', () => {
         fun(...fun.toString().split(/\(|\)/)[1].split(',').map(a => document.getElementById(a.trim())));
     });
 }
-onClick('build', (spec: HTMLTextAreaElement, spec_lang: HTMLSelectElement, gen: HTMLTextAreaElement, gen_lang: HTMLSelectElement, compiler: HTMLTextAreaElement, compiler_lang: HTMLSelectElement) => {
-    console.log(`Generated compiler from ${spec_lang.value} to ${gen_lang.value} in ${compiler_lang.value}.`);
+onClick('build', (spec: HTMLTextAreaElement, spec_lang: HTMLSelectElement, gen: HTMLTextAreaElement, gen_lang: HTMLSelectElement, compiler: HTMLTextAreaElement) => {
+    // console.log(`Generated compiler from ${spec_lang.value} to ${gen_lang.value}.`);
+    compiler.value = CompilerGenerator.Build(spec.value, gen.value);
+})
+onClick('compile', (compiler: HTMLTextAreaElement, source: HTMLTextAreaElement, output: HTMLTextAreaElement, destination: HTMLTextAreaElement) => {
     
-    if (!(Compilers as any)[compiler_lang.value]) {
-        alert("The selected language to generate the compiler in does not exist!");
-        return;
+    hijackConsole(output);
+    console.clear();
+    try {
+        const input = JSON.stringify(source.value);
+        const result = eval(compiler.value + `main(${input});`);
+        destination.value = result;
     }
-    compiler.innerText = (Compilers as any)[compiler_lang.value].Build(spec.value, gen.value);
+    catch(e) {
+        console.log(e);
+    }
+    restoreConsole();
 })
-onClick('download', (compiler: HTMLTextAreaElement) => {
-    console.log(compiler.value);
-})
-onClick('compile', (source: HTMLTextAreaElement, destination: HTMLTextAreaElement) => {
-    console.log(source.value);
-})
+
+function main(input: string): string { console.log("The compiler is missing a main function"); return ''; }
+
+let clog = console.log;
+let cclear = console.clear;
+let cerror = console.error;
+function hijackConsole(output: HTMLTextAreaElement) {
+    console.clear = () => output.value = "";
+    console.log = (...text: string[]) => output.value += text.join(' ');
+    console.error = console.log;
+}
+
+function restoreConsole() {
+    console.log = clog;
+    console.error = cerror;
+    console.clear = cclear;
+}
 
 
 /*
