@@ -1,4 +1,4 @@
-export const DefaultSpec = {
+export const DefaultSpecs = {
     JavaScript: `
 // JavaScript PEG grammar
 

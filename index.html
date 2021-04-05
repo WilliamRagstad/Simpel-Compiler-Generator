@@ -27,8 +27,8 @@
             <div class="row">
                 <div class="column">
                     <div class="row">
-                        From&nbsp;
-                        <select id="spec_lang">
+                        Template&nbsp;
+                        <select id="template">
                             <option value="Custom">Custom</option>
                             <option value="JavaScript">JavaScript</option>
                             <option value="MathEval">Math Immediate Evaluate</option>
@@ -39,11 +39,14 @@
                 </div>
                 <div class="column">
                     <div class="row">
-                        To&nbsp;
+                        Code generation
+                        <!--To&nbsp;
                         <select id="gen_lang">
                             <option value="Custom">Custom</option>
+                            <option value="Template">Template</option>
                             <option value="JavaScript">JavaScript</option>
-                        </select>
+                            <option value="MathAST">Math AST</option>
+                        </select>-->
                     </div>
                     <textarea id="gen" class="column" placeholder="[Code generation]"></textarea>
                 </div>
@@ -75,6 +78,11 @@
         </div>
         <div class="column">
             <textarea id="destination" class="row" placeholder="[Destination output code]" readonly></textarea>
+            <div class="row">
+                <div class="column">
+                    <button id="execute">Try to Execute</button>
+                </div>
+            </div>
         </div>
     </div>
 </body>

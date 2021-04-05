@@ -1,5 +1,6 @@
 import { CompilerGenerators } from './core/compiler';
-import { DefaultSpec } from './core/defaults/spec';
+import { DefaultSpecs } from './core/defaults/spec';
+import { DefaultCodeGenerators } from './core/defaults/codegen';
 
 const onAction = (action: string, id: string, fun: Function) => {
     document.getElementById(id)?.addEventListener(action, () => {
@@ -10,12 +11,11 @@ const onAction = (action: string, id: string, fun: Function) => {
 const onClick = (id: string, fun: Function) => onAction('click', id, fun);
 const onChange = (id: string, fun: Function) => onAction('change', id, fun);
 
-onClick('build', (spec: HTMLTextAreaElement, spec_lang: HTMLSelectElement, gen: HTMLTextAreaElement, gen_lang: HTMLSelectElement, compiler: HTMLTextAreaElement) => {
-    // console.log(`Generated compiler from ${spec_lang.value} to ${gen_lang.value}.`);
+onClick('build', (spec: HTMLTextAreaElement, gen: HTMLTextAreaElement, compiler: HTMLTextAreaElement) => {
     compiler.value = CompilerGenerators.JavaScript(spec.value, gen.value);
 })
 onClick('compile', (compiler: HTMLTextAreaElement, source: HTMLTextAreaElement, output: HTMLTextAreaElement, destination: HTMLTextAreaElement) => {
-    
+    destination.value = '';
     hijackConsole(output);
     console.clear();
     try {
@@ -29,11 +29,22 @@ onClick('compile', (compiler: HTMLTextAreaElement, source: HTMLTextAreaElement, 
     restoreConsole();
 })
 
-onChange('spec_lang', (spec: HTMLTextAreaElement, spec_lang: HTMLSelectElement) => {
-    if ((DefaultSpec as any)[spec_lang.value] && (spec.value == '' || confirm("Do you want to override your syntax grammar specification?"))) spec.value = (DefaultSpec as any)[spec_lang.value];
+onClick('execute', (output: HTMLTextAreaElement, destination: HTMLTextAreaElement) => {
+    hijackConsole(output);
+    console.clear();
+    try {
+        eval(destination.value);
+    }
+    catch(e) {
+        console.log(e.message);
+    }
+    restoreConsole();
 })
 
-function main(input: string): string { console.log("The compiler is missing a main function"); return ''; }
+onChange('template', (spec: HTMLTextAreaElement, gen: HTMLTextAreaElement, template: HTMLSelectElement) => {
+    if ((DefaultSpecs as any)[template.value] && (spec.value == '' || confirm("Do you want to override your syntax grammar specification?"))) spec.value = (DefaultSpecs as any)[template.value];
+    if ((DefaultCodeGenerators as any)[template.value] && (gen.value == '' || confirm("Do you want to override your code generator?"))) gen.value = (DefaultCodeGenerators as any)[template.value];
+})
 
 let clog = console.log;
 let cclear = console.clear;
