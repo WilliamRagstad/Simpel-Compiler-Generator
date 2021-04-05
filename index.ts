@@ -31,7 +31,7 @@ let cclear = console.clear;
 let cerror = console.error;
 function hijackConsole(output: HTMLTextAreaElement) {
     console.clear = () => output.value = "";
-    console.log = (...text: string[]) => output.value += text.join(' ');
+    console.log = (...text: string[]) => output.value += text.map(v => typeof v == 'object' ? JSON.stringify(v) : v).join(' ') + '\n';
     console.error = console.log;
 }
 
