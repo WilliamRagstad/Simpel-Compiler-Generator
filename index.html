@@ -29,8 +29,10 @@
                     <div class="row">
                         From&nbsp;
                         <select id="spec_lang">
-                            <option value="custom">Custom</option>
+                            <option value="Custom">Custom</option>
                             <option value="JavaScript">JavaScript</option>
+                            <option value="MathEval">Math Immediate Evaluate</option>
+                            <option value="MathAST">Math AST</option>
                         </select>
                     </div>
                     <textarea id="spec" placeholder="[Syntax and specification]"></textarea>
@@ -39,7 +41,7 @@
                     <div class="row">
                         To&nbsp;
                         <select id="gen_lang">
-                            <option value="custom">Custom</option>
+                            <option value="Custom">Custom</option>
                             <option value="JavaScript">JavaScript</option>
                         </select>
                     </div>
@@ -78,7 +80,5 @@
 </body>
 
 <script src="dist/bundle.js"></script>
-<!--
-<script src="dist/index.js"></script>
-<script src="dist/theme.js"></script>-->
+
 </html>

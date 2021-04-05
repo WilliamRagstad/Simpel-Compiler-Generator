@@ -1,42 +1,25 @@
 import { SCGParser } from './parser';
-import { Matcher } from './matcher';
 import { Generator } from './generator';
 
-type Builder = (m: Matcher, g: Generator) => string;
-class Compiler {
-    private builder: Builder;
-
-    constructor(builder: Builder) {
-        this.builder = builder;
-    }
-    /**
-     * Build
-     */
-    public Build(grammar: string, generatorRules: string) {
-        let matcher: Matcher = SCGParser.Grammar(grammar);
-        let generator: Generator = SCGParser.Generator(generatorRules);
-
-        return this.builder(matcher, generator);
-        return (function main(input: string) {
-            console.log("got:", JSON.stringify(input.split(' ')));
-            return `Compiled Code from '${input}'`;
-            // let ast = matcher.Parse(input);
-            // console.log("Parsed AST: ", ast);
-            // return generator.CodeGen(ast);
-        }).toString();
-    }
-}
+const peg = require('../lib/peg-0.10.0.min.js');
 
 export const CompilerGenerators = {
-    JavaScript: new Compiler((m: Matcher, g: Generator) => {
+    JavaScript: (grammar: string, codegenRules: string) => {
+        let pegParser = peg.generate(grammar);
+        let codegen = SCGParser.Generator(codegenRules);
         return `
-    ${m.Build('parse')}
-    ${g.Build('codegen')}
-    function main(input) {
-        console.log('got "' + input + '"');
-        let ast = parse(input);
-        console.log('parsed', ast);
-        return codegen(ast);
-    }`.trimStart();
-    })
+// Peg helper functions
+const buildSyntaxErrorMessage = (expected, found) => "Expected " + JSON.stringify(expected) + " but got " + JSON.stringify(found) + "!";
+${pegParser.parse.toString()
+    .replace(/peg\$parse/g,'parse')
+    .replace(/peg\$SyntaxError/g,'SyntaxError')
+    .replace(/SyntaxError\.buildMessage/g,'buildSyntaxErrorMessage')}
+${codegen.Build('codegen')}
+function main(input) {
+    console.log('got "' + input + '"');
+    let ast = parse(input);
+    console.log('parsed', ast);
+    return codegen(ast);
+}`.trimStart();
+    }
 }

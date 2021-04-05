@@ -1,13 +1,18 @@
 import { CompilerGenerators } from './core/compiler';
+import { DefaultSpec } from './core/defaults/spec';
 
-const onClick = (id: string, fun: Function) => {
-    document.getElementById(id)?.addEventListener('click', () => {
+const onAction = (action: string, id: string, fun: Function) => {
+    document.getElementById(id)?.addEventListener(action, () => {
         fun(...fun.toString().split(/\(|\)/)[1].split(',').map(a => document.getElementById(a.trim())));
     });
 }
+
+const onClick = (id: string, fun: Function) => onAction('click', id, fun);
+const onChange = (id: string, fun: Function) => onAction('change', id, fun);
+
 onClick('build', (spec: HTMLTextAreaElement, spec_lang: HTMLSelectElement, gen: HTMLTextAreaElement, gen_lang: HTMLSelectElement, compiler: HTMLTextAreaElement) => {
     // console.log(`Generated compiler from ${spec_lang.value} to ${gen_lang.value}.`);
-    compiler.value = CompilerGenerators.JavaScript.Build(spec.value, gen.value);
+    compiler.value = CompilerGenerators.JavaScript(spec.value, gen.value);
 })
 onClick('compile', (compiler: HTMLTextAreaElement, source: HTMLTextAreaElement, output: HTMLTextAreaElement, destination: HTMLTextAreaElement) => {
     
@@ -19,9 +24,13 @@ onClick('compile', (compiler: HTMLTextAreaElement, source: HTMLTextAreaElement, 
         destination.value = result;
     }
     catch(e) {
-        console.log(e);
+        console.log(e.message);
     }
     restoreConsole();
+})
+
+onChange('spec_lang', (spec: HTMLTextAreaElement, spec_lang: HTMLSelectElement) => {
+    if ((DefaultSpec as any)[spec_lang.value] && (spec.value == '' || confirm("Do you want to override your syntax grammar specification?"))) spec.value = (DefaultSpec as any)[spec_lang.value];
 })
 
 function main(input: string): string { console.log("The compiler is missing a main function"); return ''; }
