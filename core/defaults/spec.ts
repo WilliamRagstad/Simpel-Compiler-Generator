@@ -40,29 +40,29 @@ integer "integer"
 */
 
     MathAST: `
-    // Math PEG Grammar
-    {
-        function makeInteger(o) {
-            return parseInt(o.join(""), 10);
-        }
+// Math PEG Grammar
+{
+    function makeInteger(o) {
+        return parseInt(o.join(""), 10);
     }
-    
-    start
-        = additive
-    
-    additive
-        = left:multiplicative "+" right:additive { return {op: 'add', left: left, right: right}; }
-        / multiplicative
-    
-    multiplicative
-        = left:primary "*" right:multiplicative { return {op: 'mul', left: left, right: right}; }
-        / primary
-    
-    primary
-        = integer
-        / "(" additive:additive ")" { return additive; }
-    
-    integer "integer"
-        = digits:[0-9]+ { return {num: makeInteger(digits) }; }
-    `
+}
+
+start
+    = additive
+
+additive
+    = left:multiplicative "+" right:additive { return {op: 'add', left: left, right: right}; }
+    / multiplicative
+
+multiplicative
+    = left:primary "*" right:multiplicative { return {op: 'mul', left: left, right: right}; }
+    / primary
+
+primary
+    = integer
+    / "(" additive:additive ")" { return additive; }
+
+integer "integer"
+    = digits:[0-9]+ { return {num: makeInteger(digits) }; }
+`.trimStart()
 }
