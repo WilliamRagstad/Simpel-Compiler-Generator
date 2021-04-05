@@ -32,7 +32,9 @@ export const CompilerGenerator = new Compiler((m: Matcher, g: Generator) => {
 ${m.Build('parse')}
 ${g.Build('codegen')}
 function main(input) {
+    console.log('got "' + input + '"');
     let ast = parse(input);
+    console.log('parsed', ast);
     return codegen(ast);
-}`;
+}`.trimStart();
 });
