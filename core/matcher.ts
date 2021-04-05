@@ -1,4 +1,4 @@
-import { ASTNode } from './node';
+import { ASTNode, RootNode } from './node';
 
 export class Matcher {
     private grammas: ASTNode[]
@@ -13,8 +13,8 @@ export class Matcher {
         return null;
     }
 
-    public Parse(input: string): ASTNode {
-        let root: ASTNode = {};
+    public Parse(input: string): RootNode {
+        let root: RootNode = {children: []};
 
         while(this.Match(input) != null) {
 

@@ -1,4 +1,4 @@
-import { CompilerGenerator } from './core/compiler';
+import { CompilerGenerators } from './core/compiler';
 
 const onClick = (id: string, fun: Function) => {
     document.getElementById(id)?.addEventListener('click', () => {
@@ -7,7 +7,7 @@ const onClick = (id: string, fun: Function) => {
 }
 onClick('build', (spec: HTMLTextAreaElement, spec_lang: HTMLSelectElement, gen: HTMLTextAreaElement, gen_lang: HTMLSelectElement, compiler: HTMLTextAreaElement) => {
     // console.log(`Generated compiler from ${spec_lang.value} to ${gen_lang.value}.`);
-    compiler.value = CompilerGenerator.Build(spec.value, gen.value);
+    compiler.value = CompilerGenerators.JavaScript.Build(spec.value, gen.value);
 })
 onClick('compile', (compiler: HTMLTextAreaElement, source: HTMLTextAreaElement, output: HTMLTextAreaElement, destination: HTMLTextAreaElement) => {
     

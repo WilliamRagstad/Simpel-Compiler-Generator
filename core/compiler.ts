@@ -27,14 +27,16 @@ class Compiler {
     }
 }
 
-export const CompilerGenerator = new Compiler((m: Matcher, g: Generator) => {
-    return `
-${m.Build('parse')}
-${g.Build('codegen')}
-function main(input) {
-    console.log('got "' + input + '"');
-    let ast = parse(input);
-    console.log('parsed', ast);
-    return codegen(ast);
-}`.trimStart();
-});
+export const CompilerGenerators = {
+    JavaScript: new Compiler((m: Matcher, g: Generator) => {
+        return `
+    ${m.Build('parse')}
+    ${g.Build('codegen')}
+    function main(input) {
+        console.log('got "' + input + '"');
+        let ast = parse(input);
+        console.log('parsed', ast);
+        return codegen(ast);
+    }`.trimStart();
+    })
+}

@@ -6,13 +6,10 @@ export class Generator {
         this.generatorFunction = fun;
     }
 
-    public CodeGen(ast: ASTNode): string {
-        return this.generatorFunction(ast);
-    }
-
     public Build(functionName: string): string {
         return `function ${functionName}(ast) {
-    return ast.value;
+    return ${this.generatorFunction.toString()}
+    // return ast.value;
 }`;
     }
 }
