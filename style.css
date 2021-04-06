@@ -4,16 +4,21 @@ body {
     letter-spacing: 1px;
     position: relative;
     background-color: #eee;
+
+    --color-red: #ff1313; /* #f94646 */
 }
 
 textarea {
-    min-height: 250px;
+    min-height: 150px;
     height: 100%;
-    resize: vertical;
+    /* resize: vertical; */
 }
 
 h1 {
     font-family: fantasy;
+    margin-bottom: 0;
+}
+h2 {
     margin-bottom: 0;
 }
 
@@ -22,9 +27,12 @@ p, a, div {
 }
 
 a {
-    color: #f94646;
+    color: var(--color-red);
     text-decoration: none;
     font-weight: bold;
+}
+a:hover {
+    cursor: pointer;
 }
 
 * {
@@ -76,7 +84,7 @@ a {
 .super {
     font-size: 33%;
     vertical-align: top;
-    color: #f94646;
+    color: var(--color-red);
     letter-spacing: 1px;
 }
 
@@ -87,4 +95,17 @@ a {
 
 #compiler, #output, #destination {
     white-space: pre;
+}
+
+
+
+.dark {
+    filter: invert(1) hue-rotate(180deg) saturate(2.5);
+}
+
+#theme {
+    color: #684ba0;
+}
+.dark #theme {
+    color: #404000;
 }

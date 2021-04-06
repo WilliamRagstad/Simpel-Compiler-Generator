@@ -1,8 +1,8 @@
 export const DefaultCodeGenerators = {
-    Template: `
+    Reverse: `
 function codegen(ast) {
-    return "Code generator is not implemented.";
-}`.trimStart(),
+    return ast.reverse().join('');
+}`,
     MathAST: `
 // Convert math expressions to JS expressions
 function codegen(ast) {
@@ -24,5 +24,5 @@ function traverse(ast) {
         throw "Unknown operation '" + ast.op + "'";
     }
 }
-`.trimStart()
+`
 }

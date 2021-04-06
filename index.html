@@ -18,24 +18,32 @@
             using a simple and declarative markup language, that describe the syntax for
             the language and how the compiler should generate the target or destination language
             output source.<br>
-            <a href="doc/intro.html">Read the documentation &gt;</a><br><br>
-            Fit editor to <a href="#fullscreen">fullscreen</a>.
+            <a href="doc/intro.html">Read the documentation &gt;</a>
+            <br><br>
+            Fit editor to <a href="#fullscreen">fullscreen</a>, <a id="layout-save">save</a>, <a id="layout-load">load</a>, or <a id="layout-reset">reset</a> the editor layout.
         </p>
+    </div>
+    <div class="row">
+        Template&nbsp;
+        <select id="template">
+            <option value="">No template</option>
+            <option value="Reverse">Reverse</option>
+            <option value="JavaScript">JavaScript</option>
+            <option value="Integer">Single Integer</option>
+            <option value="Float">Single Float</option>
+            <option value="MathEval">Math Immediate Evaluate</option>
+            <option value="MathAST">Math AST</option>
+        </select>
+        <br>
     </div>
     <div class="row" id="fullscreen">
         <div class="column">
             <div class="row">
                 <div class="column">
                     <div class="row">
-                        Template&nbsp;
-                        <select id="template">
-                            <option value="Custom">Custom</option>
-                            <option value="JavaScript">JavaScript</option>
-                            <option value="MathEval">Math Immediate Evaluate</option>
-                            <option value="MathAST">Math AST</option>
-                        </select>
+                        Grammar
                     </div>
-                    <textarea id="spec" placeholder="[Syntax and specification]"></textarea>
+                    <textarea id="spec" placeholder="[Syntax specification]"></textarea>
                 </div>
                 <div class="column">
                     <div class="row">
@@ -59,13 +67,16 @@
         </div>
         <div class="column">
             <div class="row">
-                Generated Compiler
+                Generated compiler
             </div>
             <textarea id="compiler" class="row" placeholder="[Result compiler]" readonly></textarea>
         </div>
     </div>
     <div class="row">
         <div class="column">
+            <div class="row">
+                Input
+            </div>
             <textarea id="source" class="row" placeholder="[Source input code]"></textarea>
             <div class="row">
                 <div class="column">
@@ -74,15 +85,21 @@
             </div>
         </div>
         <div class="column">
-            <textarea id="output" class="row" placeholder="[Console output]" readonly></textarea>
-        </div>
-        <div class="column">
+            <div class="row">
+                Output
+            </div>
             <textarea id="destination" class="row" placeholder="[Destination output code]" readonly></textarea>
             <div class="row">
                 <div class="column">
                     <button id="execute">Try to Execute</button>
                 </div>
             </div>
+        </div>
+        <div class="column">
+            <div class="row">
+                Console
+            </div>
+            <textarea id="output" class="row" placeholder="[Console output]" readonly></textarea>
         </div>
     </div>
 </body>

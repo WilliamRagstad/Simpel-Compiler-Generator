@@ -1,8 +1,38 @@
 export const DefaultSpecs = {
+    Reverse: `
+start = (.*)
+`,
     JavaScript: `
 // JavaScript PEG grammar
+{
+    function makeInteger(o) {
+        return parseInt(o.join(""), 10);
+    }
+}
 
-`.trimStart(),
+start
+    = integer
+
+integer "integer"
+    = digits:[0-9]+ { return makeInteger(digits); }
+
+`,
+    Integer: `
+// Single integer parser
+start "integer" = digits: [0-9]+ {
+    return parseInt(digits.join(''));
+}
+`,
+    Float: `
+// Single float parser
+start "float" = left: integer "." right: integer {
+    return parseFloat(left + "." + right);
+}
+
+integer "integer" = digits: ([0-9]+) {
+    return digits.join('');
+}
+`,
     MathEval: `
 // Math PEG Grammar
 {
@@ -28,7 +58,7 @@ primary
 
 integer "integer"
     = digits:[0-9]+ { return makeInteger(digits); }
-`.trimStart(),
+`,
 
 /*
     * MathEval
@@ -64,5 +94,5 @@ primary
 
 integer "integer"
     = digits:[0-9]+ { return {num: makeInteger(digits) }; }
-`.trimStart()
+`
 }

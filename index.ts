@@ -11,8 +11,21 @@ const onAction = (action: string, id: string, fun: Function) => {
 const onClick = (id: string, fun: Function) => onAction('click', id, fun);
 const onChange = (id: string, fun: Function) => onAction('change', id, fun);
 
-onClick('build', (spec: HTMLTextAreaElement, gen: HTMLTextAreaElement, compiler: HTMLTextAreaElement) => {
-    compiler.value = CompilerGenerators.JavaScript(spec.value, gen.value);
+let mainName = 'compile';
+onClick('build', (spec: HTMLTextAreaElement, gen: HTMLTextAreaElement, compiler: HTMLTextAreaElement, output: HTMLTextAreaElement) => {
+    compiler.value = '';
+    if (gen.value == '') mainName = 'interpret'; // Interpreter
+    else mainName = 'compile' // Compiler
+
+    hijackConsole(output);
+    console.clear();
+    try {
+       compiler.value = CompilerGenerators.JavaScript(spec.value, gen.value, mainName);
+    }
+    catch(e) {
+        console.log(e.message);
+    }
+    restoreConsole();
 })
 onClick('compile', (compiler: HTMLTextAreaElement, source: HTMLTextAreaElement, output: HTMLTextAreaElement, destination: HTMLTextAreaElement) => {
     destination.value = '';
@@ -20,7 +33,7 @@ onClick('compile', (compiler: HTMLTextAreaElement, source: HTMLTextAreaElement, 
     console.clear();
     try {
         const input = JSON.stringify(source.value);
-        const result = eval(compiler.value + `main(${input});`);
+        const result = eval(compiler.value + `${mainName}(${input});`) ?? '';
         destination.value = result;
     }
     catch(e) {
@@ -41,9 +54,45 @@ onClick('execute', (output: HTMLTextAreaElement, destination: HTMLTextAreaElemen
     restoreConsole();
 })
 
+onClick('layout-reset', () => {
+    let elements = document.getElementsByTagName("textarea");
+    for (let i = 0; i < elements.length; i++) {
+        // console.log(elements[i]);
+        elements[i].style.removeProperty('margin');
+        elements[i].style.removeProperty('width');
+        elements[i].style.removeProperty('height');
+    }
+})
+
+onClick('layout-save', () => {
+    let elements = document.getElementsByTagName("textarea");
+    let cache = [];
+    for (let i = 0; i < elements.length; i++) {
+        // console.log(elements[i]);
+        cache.push({
+            width: elements[i].style.getPropertyValue('width'),
+            height: elements[i].style.getPropertyValue('height')
+        })
+    }
+    localStorage.setItem('layout', JSON.stringify(cache));
+})
+
+onClick('layout-load', () => {
+    let elements = document.getElementsByTagName("textarea");
+    let cache = JSON.parse(localStorage.getItem('layout') ?? '[]');
+    if (!cache) return;
+    for (let i = 0; i < elements.length; i++) {
+        if (cache[i]) {
+            elements[i].style.setProperty('width', cache[i].width);
+            elements[i].style.setProperty('height', cache[i].height);
+        }
+    }
+})
+
 onChange('template', (spec: HTMLTextAreaElement, gen: HTMLTextAreaElement, template: HTMLSelectElement) => {
-    if ((DefaultSpecs as any)[template.value] && (spec.value == '' || confirm("Do you want to override your syntax grammar specification?"))) spec.value = (DefaultSpecs as any)[template.value];
-    if ((DefaultCodeGenerators as any)[template.value] && (gen.value == '' || confirm("Do you want to override your code generator?"))) gen.value = (DefaultCodeGenerators as any)[template.value];
+    if ((DefaultSpecs as any)[template.value] && (spec.value == '' || confirm("Do you want to override your syntax grammar specification?"))) spec.value = (DefaultSpecs as any)[template.value].trim();
+    if ((DefaultCodeGenerators as any)[template.value] && (gen.value == '' || confirm("Do you want to override your code generator?"))) gen.value = (DefaultCodeGenerators as any)[template.value].trim();
+    else if (gen.value == '' || confirm("Do you want to clear your code generator?")) gen.value = '';
 })
 
 let clog = console.log;
@@ -76,15 +125,13 @@ let dark = ls == 'false';
 applyTheme();
 
 function setNight() {
-    document.body.parentElement?.style.setProperty('filter', `invert(1) hue-rotate(180deg)`);
+    document.body.parentElement?.classList.add('dark');
     themeBtn.innerText = "☀️";
-    themeBtn.style.setProperty('color', "#5f5f00");
 }
 
 function setDay() {
-    document.body.parentElement?.style.removeProperty('filter');
+    document.body.parentElement?.classList.remove('dark');
     themeBtn.innerText = "🌙";
-    themeBtn.style.setProperty('color', "#976aef");
 }
 
 function applyTheme() {
